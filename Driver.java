@@ -1,14 +1,15 @@
 package pakete;
 import com.qqwing.*;
+import java.util.Arrays;
 
 public class Driver {
 	public static void main(String args[]) {
 		QQWing qq = new QQWing();
 		qq.generatePuzzle();
 		qq.printPuzzle();
-		int sudoku[] = qq.getPuzzle();
-		for(int i = 0; i < sudoku.length; i++) {
-			System.out.print(sudoku[i]);
-		}
+		Sudoku s = new Sudoku(qq.getPuzzle());
+		Chromosome cromosoma = new Chromosome(s);
+		System.out.println(cromosoma.getChromosome().length);
+		System.out.println(Arrays.toString(cromosoma.getsudokuchromosome()));
 	}
 }
