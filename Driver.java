@@ -9,7 +9,9 @@ public class Driver {
 		qq.printPuzzle();
 		Sudoku s = new Sudoku(qq.getPuzzle());
 		Chromosome cromosoma = new Chromosome(s);
-		System.out.println(cromosoma.getChromosome().length);
-		System.out.println(Arrays.toString(cromosoma.getsudokuchromosome()));
+		
+		for(int i = 0; i < 9; i++) {
+			System.out.println(Arrays.toString(cromosoma.getsudokuchromosome2d()[i]));
+		}
 	}
 }
