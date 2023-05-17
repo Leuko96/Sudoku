@@ -1,20 +1,22 @@
 package pakete;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class Chromosome {
+public class Chromosome{
 	
 	
 	private int[] chromosome;
 	private int[] sudoku;
 	private int[] sudokupluschromosome;
 	private Node[][] sudokupluschromosome2d;
+	private Sudoku sudo;
 	private Random rnd = new Random();
 	
-	public void sudokupluschromosome2bidimensional() {
+	public void sudokupluschromosome2bidimensional(){
 		sudokupluschromosome2d = new Node[9][9];
 		int aux = 0;
 		int counter = 0;
@@ -110,6 +112,7 @@ public class Chromosome {
 	
 	public Chromosome(Sudoku s) {
 		chromosome = new int[countZeroes(s.getSudoku())];
+		sudo = s;
 		sudoku = s.getSudoku();
 		joinsudokuchromosome();
 		sudokupluschromosome2bidimensional();
@@ -117,6 +120,10 @@ public class Chromosome {
 	
 	public int[] getChromosome() {
 		return chromosome;
+	}
+	
+	public void setChromosome(int[] arr) {
+		this.sudokupluschromosome = arr; 
 	}
 	
 	public int fitnessFunction() {
@@ -169,6 +176,41 @@ public class Chromosome {
 					counter++;
 				}
 			}
+		}
+	}
+	public Chromosome crossover(Chromosome p2) {
+		Chromosome child = new Chromosome(sudo);
+		int fil = rnd.nextInt(8);
+		int[] parent1 = this.getsudokuchromosome();
+		int[] parent2 = p2.getsudokuchromosome();
+		int[] childArr = new int[parent2.length];
+		int n = 8*fil;
+		for(int i = 0; i < parent2.length; i++) {
+			if(i<=n) {
+				childArr[i] = parent1[i];
+			}else {
+				childArr[i] = parent2[i];
+			}
+		}
+		child.setChromosome(childArr); //Aqui solo devolvemos el Chromosome+sudoku.
+		child.getsudokuchromosome2d();
+		return child;
+	}
+	public void mutate() {
+		int n = 0;
+		int[] childArr = this.getsudokuchromosome();
+		int fil = rnd.nextInt(8);
+		int aux1 = rnd.nextInt(8);
+		while(this.sudoku[aux1] != 0) {
+			aux1 = rnd.nextInt(8);
+		}
+		int aux2 = rnd.nextInt(8);
+		while(aux2==aux1 || this.sudoku[aux2] !=0)
+			aux2 = rnd.nextInt(8);
+		for(int  i = 0; i < 9; i++) {
+			n = childArr[aux1*fil];
+			childArr[aux1*fil] = childArr[aux2*fil];
+			childArr[aux2*fil] = n;
 		}
 	}
 	
