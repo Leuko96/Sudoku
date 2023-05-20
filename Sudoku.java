@@ -1,7 +1,5 @@
 package pakete;
 
-import java.util.HashMap;
-
 import com.qqwing.QQWing;
 
 public class Sudoku {
